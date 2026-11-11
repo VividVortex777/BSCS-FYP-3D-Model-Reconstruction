@@ -41,7 +41,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--frames", type=int, default=25)
     ap.add_argument("--interval", type=float, default=3.0)
-    ap.add_argument("--out", default=str(Path.home() / "FYP/realroom/capture"))
+    ap.add_argument("--out", default=str(Path(__file__).resolve().parents[1] / "realroom/capture"))
     args = ap.parse_args()
 
     out = Path(args.out).expanduser()

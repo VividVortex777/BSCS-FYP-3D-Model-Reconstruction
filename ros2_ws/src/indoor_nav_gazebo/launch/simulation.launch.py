@@ -23,7 +23,7 @@ def generate_launch_description():
 
     # FYP_WORLD=<absolute path to an .sdf world> overrides the default indoor
     # world, e.g. the real-room replica generated from the reconstruction:
-    #   FYP_WORLD=~/FYP/ros2_ws/src/indoor_nav_gazebo/worlds/realroom_world.sdf
+    #   FYP_WORLD=$FYP_ROOT/ros2_ws/src/indoor_nav_gazebo/worlds/realroom_world.sdf
     world = Path(
         os.environ.get(
             "FYP_WORLD", pkg_dir / "worlds" / "indoor_world.sdf"

@@ -21,10 +21,11 @@ import cv2
 import numpy as np
 
 BACKEND = "http://127.0.0.1:8000"
-OUT_DIR = os.path.expanduser("~/FYP/realroom/video60")
+FYP_ROOT = os.environ.get("FYP_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT_DIR = os.path.join(FYP_ROOT, "realroom/video60")
 VIDEO_PATH = os.path.join(OUT_DIR, "video60.mp4")
 FRAME_DIR = os.path.join(OUT_DIR, "raw_frames")
-LATEST_JPG = os.path.expanduser("~/FYP/backend/uploads/latest.jpg")
+LATEST_JPG = os.path.join(FYP_ROOT, "backend/uploads/latest.jpg")
 DURATION = 62.0  # ~1 minute of recording
 APP_PKG = "com.fyp.reconstruction"
 

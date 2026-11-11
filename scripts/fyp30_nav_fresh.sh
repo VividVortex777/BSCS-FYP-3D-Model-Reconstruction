@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Clean Nav2 restart for the realroom30 offline demo; sim/static-TF/backend/map_server stay up.
 # map_server must already be running (scripts/fyp30_map_server.sh) so costmaps
 # initialize WITH the map instead of resizing mid-flight.
@@ -16,13 +17,13 @@ pkill -f 'waypoint_follower' 2>/dev/null
 sleep 5
 
 echo "== launching navigation (realroom30) =="
-setsid env FYP_MAP=$HOME/FYP/realroom/capture30/realroom30_map.yaml \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
+setsid env FYP_MAP=$FYP_ROOT/realroom/capture30/realroom30_map.yaml \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
     > /tmp/fyp_nav30_launch2.log 2>&1 &
 
 sleep 30
 source /opt/ros/lyrical/setup.bash
-source "$HOME/FYP/ros2_ws/install/setup.bash"
+source "$FYP_ROOT/ros2_ws/install/setup.bash"
 export ROS_DOMAIN_ID=0
 
 # Wait for each Nav2 managed node to reach active, retrying activation if the

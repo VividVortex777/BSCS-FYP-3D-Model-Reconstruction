@@ -6,6 +6,7 @@ ROS depth bridge consumes).
 """
 
 import asyncio
+import os
 import sys
 import time
 from pathlib import Path
@@ -24,7 +25,8 @@ for a in sys.argv[1:]:
 
 BACKEND = args[0] if args else "ws://127.0.0.1:8000/ws/video"
 HTTP_BASE = BACKEND.replace("ws://", "http://").rsplit("/ws/", 1)[0]
-FRAME_DIR = Path.home() / "FYP" / "video_frames"
+FYP_ROOT = Path(os.environ.get("FYP_ROOT") or Path(__file__).resolve().parents[1])
+FRAME_DIR = FYP_ROOT / "video_frames"
 N_FRAMES = 3
 
 

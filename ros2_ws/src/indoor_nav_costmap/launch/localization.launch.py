@@ -15,21 +15,21 @@ not be started before depth data appears.
 import os
 from pathlib import Path
 
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    params_file = (
-        "/home/hammad/FYP/ros2_ws/src/"
-        "indoor_nav_costmap/config/nav2_params.yaml"
-    )
+    # Resolved from the installed package so the launch works from any clone
+    # location (with --symlink-install these are the files in src/).
+    pkg_share = Path(get_package_share_directory("indoor_nav_costmap"))
+    params_file = str(pkg_share / "config" / "nav2_params.yaml")
     # Map can be overridden, e.g. a map generated from the real-room
-    # reconstruction: FYP_MAP=~/FYP/realroom/realroom_map.yaml
+    # reconstruction: FYP_MAP=$FYP_ROOT/realroom/realroom_map.yaml
     map_file = os.environ.get(
         "FYP_MAP",
-        "/home/hammad/FYP/ros2_ws/src/"
-        "indoor_nav_costmap/maps/indoor_map.yaml",
+        str(pkg_share / "maps" / "indoor_map.yaml"),
     )
     # AMCL initial pose override for non-default maps: FYP_INITIAL_POSE="x,y"
     _ip = os.environ.get("FYP_INITIAL_POSE", "0.0,-2.0").split(",")

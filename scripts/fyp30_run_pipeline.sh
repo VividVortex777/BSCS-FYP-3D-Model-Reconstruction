@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # =============================================================================
 # fyp30_run_pipeline.sh — GENERIC offline reconstruction pipeline (frozen recipe)
 #
@@ -17,8 +18,6 @@ set -o pipefail
 DS=$(realpath "$1") || { echo "usage: $0 <dataset_dir|video.mp4>"; exit 1; }
 [ -d "$DS" ] || [ -f "$DS" ] || { echo "dataset dir not created"; exit 1; }
 
-FYP_PY=${FYP_PY:-$HOME/miniconda3/envs/fyp/bin/python}
-FYP_ROOT=${FYP_ROOT:-$HOME/FYP}
 FPS=${FYP_FPS:-2}                  # extraction fps (any input length supported)
 MAX_FRAMES=${FYP_MAX_FRAMES:-140}  # cap on frames fed to MiDaS+COLMAP
 [ -x "$FYP_PY" ] || { echo "FAIL: python interpreter not found: $FYP_PY (set FYP_PY)"; exit 2; }

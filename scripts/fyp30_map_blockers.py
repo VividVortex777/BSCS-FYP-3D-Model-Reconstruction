@@ -9,6 +9,7 @@ Reports, per component (area >= 30 cells):
     it with >= min(10, area) cells of penetration (deep crossing)
 No map/pipeline changes.
 """
+import os
 import sys
 import math
 import yaml
@@ -18,7 +19,9 @@ import glob
 
 # GENERIC: default = the most recent reconstruction run (arg 1 overrides).
 def _latest_run():
-    runs = sorted(glob.glob("/home/hammad/FYP/realroom/runs/*/"), reverse=True)
+    runs = sorted(glob.glob(os.path.join(
+        os.environ.get("FYP_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "realroom/runs/*/")), reverse=True)
     return runs[0].rstrip("/") if runs else "."
 
 DS = sys.argv[1] if len(sys.argv) > 1 else _latest_run()

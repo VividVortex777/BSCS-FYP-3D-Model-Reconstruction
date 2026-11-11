@@ -9,14 +9,18 @@ historical bringup failure of this project.
 
 from pathlib import Path
 
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    params_file = (
-        "/home/hammad/FYP/ros2_ws/src/"
-        "indoor_nav_costmap/config/nav2_params.yaml"
+    # Resolved from the installed package so the launch works from any clone
+    # location (with --symlink-install this is the file in src/).
+    params_file = str(
+        Path(get_package_share_directory("indoor_nav_costmap"))
+        / "config"
+        / "nav2_params.yaml"
     )
 
     controller_server = Node(

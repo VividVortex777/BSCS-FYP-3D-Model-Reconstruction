@@ -14,7 +14,7 @@ import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-FYP_DIR = Path.home() / "FYP"
+FYP_DIR = Path(__file__).resolve().parents[1]
 WORLD_SDF = (
     FYP_DIR / "ros2_ws" / "src" / "indoor_nav_gazebo" / "worlds" / "indoor_world.sdf"
 )

@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Restart ONLY nav2 (controller/planner/behavior/bt_navigator + their launch),
 # leaving sim, robot, map_server, perception and TF untouched. Nudges each
 # managed node to active with retries (lifecycle calls are slow under load).
@@ -13,12 +14,12 @@ pkill -f 'smoother_server' 2>/dev/null
 sleep 5
 
 source /opt/ros/lyrical/setup.bash
-source "$HOME/FYP/ros2_ws/install/setup.bash"
+source "$FYP_ROOT/ros2_ws/install/setup.bash"
 export ROS_DOMAIN_ID=0
-FYP_MAP=${FYP_MAP:-/home/hammad/FYP/realroom/capture_fresh/realroom_capture_fresh.yaml}
+FYP_MAP=${FYP_MAP:-$FYP_ROOT/realroom/capture_fresh/realroom_capture_fresh.yaml}
 
 setsid env FYP_MAP="$FYP_MAP" \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
     > /tmp/fyp_nav30_launch.log 2>&1 &
 sleep 35
 

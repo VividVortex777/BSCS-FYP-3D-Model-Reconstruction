@@ -1,10 +1,11 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Lock the FYP backend video stream (offline enforcement) and restart backend.
 # Pattern lives in this file so pkill cannot self-match the invoking shell.
 set -u
 pkill -f 'uvicorn backend[.]api[.]main' || true
 sleep 3
-FYP_VIDEO_STREAM_LOCK=1 setsid nohup bash /home/hammad/FYP/run_backend.sh >> /tmp/fyp_backend.log 2>&1 < /dev/null &
+FYP_VIDEO_STREAM_LOCK=1 setsid nohup bash $FYP_ROOT/run_backend.sh >> /tmp/fyp_backend.log 2>&1 < /dev/null &
 disown
 for i in $(seq 1 18); do
   H=$(curl -s -m 2 http://127.0.0.1:8000/health)

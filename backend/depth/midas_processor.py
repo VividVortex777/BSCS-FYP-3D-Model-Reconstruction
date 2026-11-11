@@ -1,3 +1,4 @@
+import os
 import sys
 from pathlib import Path
 
@@ -10,7 +11,12 @@ import torch
 torch.set_num_threads(6)
 
 
-FYP_DIR = Path.home() / "FYP"
+# Repository root: FYP_ROOT env override, else the clone this file lives in.
+# Resolved inline (not via backend.core.paths) so this file also runs as a
+# standalone script: python backend/depth/midas_processor.py
+FYP_DIR = Path(
+    os.environ.get("FYP_ROOT") or Path(__file__).resolve().parents[2]
+).expanduser()
 MIDAS_DIR = FYP_DIR / "MiDaS"
 WEIGHTS = MIDAS_DIR / "weights" / "dpt_hybrid_384.pt"
 

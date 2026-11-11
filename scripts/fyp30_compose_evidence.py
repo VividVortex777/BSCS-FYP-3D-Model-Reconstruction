@@ -23,7 +23,8 @@ import cv2
 import numpy as np
 import yaml
 
-DS = "/home/hammad/FYP/realroom/capture_fresh"
+FYP_ROOT = os.environ.get("FYP_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DS = os.path.join(FYP_ROOT, "realroom/capture_fresh")
 VE = sys.argv[1] if len(sys.argv) > 1 else "/tmp/ve_run4"
 EV = f"{DS}/evidence"
 os.makedirs(EV, exist_ok=True)

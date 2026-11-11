@@ -1,7 +1,8 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Archive ALL old test data from previous runs (does NOT touch source code).
 set -u
-FYP="$HOME/FYP"
+FYP="$FYP_ROOT"
 ARC="$FYP/realroom/archive_old_20260926"
 mkdir -p "$ARC"
 cd "$FYP"
