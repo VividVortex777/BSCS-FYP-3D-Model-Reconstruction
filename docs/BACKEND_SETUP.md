@@ -18,6 +18,11 @@ describes how to recreate that environment.
 | opencv-python-headless / numpy | 5.0.0.93 / 2.5.5 |
 
 The full list of exact versions is in `backend/requirements.lock.txt`.
+That lock file was resolved and tested for **Linux x86_64 with Python
+3.14** only. Several of its packages (torch, numpy, opencv, the
+`nvidia-*` CUDA libraries) are built separately for each Python version
+and platform. For a different setup, install from `requirements.txt`
+and record a new lock file with `venv/bin/pip freeze`.
 
 The pip wheels include the CUDA and cuDNN libraries, so no system CUDA
 toolkit is needed. The NVIDIA driver must be version 580 or newer for
@@ -40,15 +45,31 @@ The download is about 3 GB, mostly CUDA libraries, and the installed venv
 is about 5.7 GB.
 
 **On a slow or unreliable network:** pip loses its partial downloads when
-it is interrupted. Instead, use `~/FYP-data/fetch_wheels.sh`, which
-resumes downloads and checks each file's SHA-256 hash. It writes the
-wheels to `~/FYP-data/wheels/`. Install them offline afterwards:
+it is interrupted. Instead, use `scripts/fetch_wheels.sh`. It works in
+two stages:
+
+1. It asks pip which packages the lock file needs. This fetches only
+   package information, not the packages themselves. The result is a
+   list of URLs and SHA-256 hashes, saved as `urls.tsv`.
+2. It downloads each package with `curl`, resuming any partial file, and
+   checks each file against its hash.
+
+Packages are saved to `~/FYP-data/wheels/`, outside Git. You can change
+that folder with `WHEELS_DIR`. The script is safe to re-run at any time;
+it skips files that are already verified. After it finishes, install
+offline:
 
 ```bash
-setsid nohup bash ~/FYP-data/fetch_wheels.sh >> ~/FYP-data/wheels/fetch.log 2>&1 < /dev/null &
-# when fetch.log ends with ALL-WHEELS-READY:
+python3 -m venv venv     # the script uses the venv's pip for stage 1
+mkdir -p ~/FYP-data/wheels
+setsid nohup bash scripts/fetch_wheels.sh >> ~/FYP-data/wheels/fetch.log 2>&1 < /dev/null &
+tail -f ~/FYP-data/wheels/fetch.log          # wait for ALL-WHEELS-READY
 venv/bin/pip install --no-index --find-links ~/FYP-data/wheels -r backend/requirements.lock.txt
 ```
+
+`setsid nohup` keeps the download running after the terminal or the
+Claude/IDE session closes. If the PC shuts down, run the same command
+again and it resumes.
 
 ## 2. MiDaS code and weights (kept out of Git)
 
@@ -82,12 +103,18 @@ passes. It checks the following:
 
 It also reports timing and GPU memory.
 
-Measured on a 640×480 image (model only, median of 10 runs):
+Measured on a 640×480 image (model only, median of 10 runs, two separate
+sessions on 2026-11-16):
 
 | Precision | Time | Throughput | Peak GPU memory |
 |---|---|---|---|
-| FP32 | 39.5 ms | 25.3 fps | 604 MiB |
-| FP16 (autocast) | 23.5 ms | 42.6 fps | 868 MiB |
+| FP32 | 39.5–43.7 ms | 23–25 fps | 604 MiB |
+| FP16 (autocast) | 23.5–26.0 ms | 38–43 fps | 868 MiB |
+
+Timings vary by about 10% between runs, because a laptop GPU's clock
+speed changes with temperature and power state. Treat these as
+approximate figures, not exact benchmarks. Memory use was identical in
+both runs.
 
 In FP16 the depth differs from FP32 by at most 0.16% of the depth range.
 The backend itself still runs in FP32.
