@@ -19,6 +19,27 @@ describes how to recreate that environment.
 
 The full list of exact versions is in `backend/requirements.lock.txt`.
 
+### Compatibility scope of the lock file
+
+`backend/requirements.lock.txt` has been tested **only** with:
+
+- **Linux x86_64** (Ubuntu 26.04.1)
+- **Python 3.14.4**
+- **NVIDIA RTX 4050 Laptop GPU** (driver 595.99.02)
+- the **CUDA-enabled PyTorch** build: on Linux x86_64, `torch==2.15.0`
+  from PyPI is the CUDA 13.2 build, and the lock file also pins its
+  `nvidia-*` CUDA libraries
+
+Other operating systems, CPU architectures, Python versions and GPUs are
+**untested**. Several locked packages (torch, numpy, opencv and the
+`nvidia-*` libraries) are built separately for each platform and Python
+version, so the lock file may not install elsewhere at all. On any other
+setup:
+
+1. Install from `backend/requirements.txt`.
+2. Run the GPU smoke test (section 3).
+3. Save that setup's own lock file with `venv/bin/pip freeze`.
+
 The pip wheels include the CUDA and cuDNN libraries, so no system CUDA
 toolkit is needed. The NVIDIA driver must be version 580 or newer for
 CUDA 13.x.
@@ -28,27 +49,62 @@ CUDA 13.x.
 The environment is isolated from system Python and from the ROS Python
 packages. `venv/` is listed in `.gitignore`.
 
+### Standard install (online, recommended)
+
+Run these from the root of your clone:
+
 ```bash
-cd ~/Projects/fyp-smartphone-robot-navigation
 python3 -m venv venv
-venv/bin/pip install -r backend/requirements.txt
-# or, to reproduce the exact tested set:
-venv/bin/pip install -r backend/requirements.lock.txt
+venv/bin/pip install -r backend/requirements.lock.txt   # exact tested versions
 ```
+
+Installing from the lock file pulls everything from PyPI, including the
+CUDA-enabled `torch` wheel and its `nvidia-*` libraries. Do **not** add
+`--index-url https://download.pytorch.org/whl/cpu`, and do not set an
+equivalent `PIP_INDEX_URL`: either one would install the CPU-only
+build. The smoke test in section 3 catches that case.
+
+`backend/requirements.txt` is the looser alternative for platforms
+outside the tested scope. It pins only torch, torchvision and timm, so
+the other packages may resolve to newer versions.
 
 The download is about 3 GB, mostly CUDA libraries, and the installed venv
 is about 5.7 GB.
 
-**On a slow or unreliable network:** pip loses its partial downloads when
-it is interrupted. Instead, use `~/FYP-data/fetch_wheels.sh`, which
-resumes downloads and checks each file's SHA-256 hash. It writes the
-wheels to `~/FYP-data/wheels/`. Install them offline afterwards:
+### Optional: resumable download on a slow network
+
+pip throws away partial downloads when it is interrupted.
+`scripts/fetch_wheels.sh`, which is committed in this repository, works
+around that:
+
+1. It asks pip which packages the lock file needs. This fetches package
+   information only.
+2. It downloads each package with resumable `curl`.
+3. It checks every file against the SHA-256 hash that PyPI publishes.
+
+Then you install with no network:
 
 ```bash
-setsid nohup bash ~/FYP-data/fetch_wheels.sh >> ~/FYP-data/wheels/fetch.log 2>&1 < /dev/null &
-# when fetch.log ends with ALL-WHEELS-READY:
+python3 -m venv venv                       # the script uses the venv's pip
+mkdir -p ~/FYP-data/wheels
+setsid nohup bash scripts/fetch_wheels.sh >> ~/FYP-data/wheels/fetch.log 2>&1 < /dev/null &
+tail -f ~/FYP-data/wheels/fetch.log        # wait for ALL-WHEELS-READY
 venv/bin/pip install --no-index --find-links ~/FYP-data/wheels -r backend/requirements.lock.txt
 ```
+
+`setsid nohup` keeps the download running after the terminal closes. If
+the PC shuts down, run the same command again and it resumes.
+
+**Machine-specific, not in Git:** everything the script writes lives on
+your own machine, in `~/FYP-data/wheels/` (or the folder you set with
+`WHEELS_DIR`):
+
+- the downloaded `*.whl` files and any `*.part` partial files
+- `urls.tsv`, `sizes.txt` and `resolve_report.json`
+- `fetch.log`
+
+Each machine builds its own cache. A cache only works for the same
+platform and Python version it was resolved on.
 
 ## 2. MiDaS code and weights (kept out of Git)
 
@@ -82,12 +138,20 @@ passes. It checks the following:
 
 It also reports timing and GPU memory.
 
-Measured on a 640×480 image (model only, median of 10 runs):
+Approximate results on the RTX 4050 Laptop GPU, for a 640×480 image.
+These figures cover the model only (median of 10 runs, measured on
+2026-11-16):
 
-| Precision | Time | Throughput | Peak GPU memory |
+| Precision | Time per frame | Throughput | Peak GPU memory |
 |---|---|---|---|
-| FP32 | 39.5 ms | 25.3 fps | 604 MiB |
-| FP16 (autocast) | 23.5 ms | 42.6 fps | 868 MiB |
+| FP32 | ~40–45 ms | ~22–25 fps | 604 MiB |
+| FP16 (autocast) | ~24–27 ms | ~37–42 fps | 868 MiB |
+
+Performance varies from run to run with the GPU clock speed, the GPU
+temperature (laptop GPUs slow down as they heat up) and whatever else
+the system is doing. Treat these numbers as typical ranges, not exact
+benchmarks. Expect the full backend to be slower, because it also
+decodes and encodes JPEGs and moves data over the network.
 
 In FP16 the depth differs from FP32 by at most 0.16% of the depth range.
 The backend itself still runs in FP32.
