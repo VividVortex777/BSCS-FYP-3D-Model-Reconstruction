@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Kill and relaunch sim + localization + nav for the final video60 demo.
 # All kill patterns live in this FILE (never pkill from the agent shell).
 pkill -f 'simulation.launch.py' 2>/dev/null
@@ -24,23 +25,23 @@ SPAWN_X=1.58
 SPAWN_Y=-1.93
 
 echo "== sim (world2) =="
-setsid env FYP_WORLD=$HOME/FYP/realroom/video60/video60_world2.sdf \
+setsid env FYP_WORLD=$FYP_ROOT/realroom/video60/video60_world2.sdf \
     FYP_SPAWN_X=$SPAWN_X FYP_SPAWN_Y=$SPAWN_Y \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_gazebo simulation.launch.py \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_gazebo simulation.launch.py \
     > /tmp/fyp_sim60.log 2>&1 &
 sleep 30
 
 echo "== localization =="
-setsid env FYP_MAP=$HOME/FYP/realroom/video60/video60_map.yaml \
+setsid env FYP_MAP=$FYP_ROOT/realroom/video60/video60_map.yaml \
     FYP_INITIAL_POSE="$SPAWN_X,$SPAWN_Y" \
     FYP_DEPTH_REPUBLISH_STALE=1 \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_costmap localization.launch.py \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_costmap localization.launch.py \
     > /tmp/fyp_loc60.log 2>&1 &
 sleep 30
 
 echo "== navigation =="
-setsid env FYP_MAP=$HOME/FYP/realroom/video60/video60_map.yaml \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
+setsid env FYP_MAP=$FYP_ROOT/realroom/video60/video60_map.yaml \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
     > /tmp/fyp_nav60_launch.log 2>&1 &
 sleep 30
 echo "DONE relaunch (spawn $SPAWN_X,$SPAWN_Y)"

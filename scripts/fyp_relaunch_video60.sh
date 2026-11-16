@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Full clean relaunch for the video60 demo (world2 clean geometry).
 # All kill patterns live in this FILE so pkill can never match the caller.
 set -u
@@ -31,23 +32,23 @@ SPAWN_X=1.58
 SPAWN_Y=-1.93
 
 echo "== relaunching simulation (world2) =="
-setsid env FYP_WORLD=$HOME/FYP/realroom/video60/video60_world2.sdf \
+setsid env FYP_WORLD=$FYP_ROOT/realroom/video60/video60_world2.sdf \
     FYP_SPAWN_X=$SPAWN_X FYP_SPAWN_Y=$SPAWN_Y \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_gazebo simulation.launch.py \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_gazebo simulation.launch.py \
     > /tmp/fyp_sim60.log 2>&1 &
 sleep 25
 
 echo "== relaunching localization (video60 map, republish_stale=1) =="
-setsid env FYP_MAP=$HOME/FYP/realroom/video60/video60_map.yaml \
+setsid env FYP_MAP=$FYP_ROOT/realroom/video60/video60_map.yaml \
     FYP_INITIAL_POSE="$SPAWN_X,$SPAWN_Y" \
     FYP_DEPTH_REPUBLISH_STALE=1 \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_costmap localization.launch.py \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_costmap localization.launch.py \
     > /tmp/fyp_loc60.log 2>&1 &
 sleep 25
 
 echo "== relaunching navigation =="
-setsid env FYP_MAP=$HOME/FYP/realroom/video60/video60_map.yaml \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
+setsid env FYP_MAP=$FYP_ROOT/realroom/video60/video60_map.yaml \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
     > /tmp/fyp_nav60_launch.log 2>&1 &
 sleep 25
 
@@ -55,7 +56,7 @@ echo "== relaunching Gazebo GUI + RViz =="
 setsid bash -c 'export DISPLAY=:0; exec gz sim -g -v 2' \
     > /tmp/fyp_gzgui.log 2>&1 &
 sleep 6
-setsid bash -c 'source /opt/ros/lyrical/setup.bash; source '$HOME'/FYP/ros2_ws/install/setup.bash; export DISPLAY=:0; exec rviz2 -d '$HOME'/FYP/rviz_live_view.rviz' \
+setsid bash -c 'source /opt/ros/lyrical/setup.bash; source '$FYP_ROOT'/ros2_ws/install/setup.bash; export DISPLAY=:0; exec rviz2 -d '$FYP_ROOT'/rviz_live_view.rviz' \
     > /tmp/fyp_rviz60.log 2>&1 &
 
 echo "DONE relaunch (spawn $SPAWN_X,$SPAWN_Y)"

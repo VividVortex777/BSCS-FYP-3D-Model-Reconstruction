@@ -1,10 +1,11 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Standalone map_server for the offline realroom30 test (navigation.launch.py has no map_server).
 # Idempotent: safe to re-run.
 source /opt/ros/lyrical/setup.bash 2>/dev/null
 export ROS_DOMAIN_ID=0
 export TURTLEBOT3_MODEL=waffle
-MAP_YAML="${MAP_YAML:-/home/hammad/FYP/realroom/capture30/realroom30_map.yaml}"
+MAP_YAML="${MAP_YAML:-$FYP_ROOT/realroom/capture30/realroom30_map.yaml}"
 
 if pgrep -f "nav2_map_server map_server" >/dev/null; then
   echo "map_server already running"

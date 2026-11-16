@@ -1,10 +1,11 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/scripts/fyp_env.sh"
 
 # Launch RViz2 for visualization
 
 set -e
 
-cd /home/hammad/FYP
+cd "$FYP_ROOT"
 
 # Source ROS2
 source /opt/ros/lyrical/setup.bash

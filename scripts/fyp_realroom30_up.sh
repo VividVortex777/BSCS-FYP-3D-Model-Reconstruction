@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Full offline bring-up for the 30-second recorded-video test (realroom30).
 # Localization = wheel odometry via static map->odom TF (phone disconnected).
 # Environment = the captured realroom30 map/world only. No AMCL.
@@ -42,13 +43,13 @@ FYP_NO_RVIZ=${FYP_NO_RVIZ:-0}
 [ -r "$FYP_WORLD" ] || { echo "FAIL: world not found: $FYP_WORLD"; exit 1; }
 
 echo "== killed; starting backend (video stream locked: offline) =="
-FYP_VIDEO_STREAM_LOCK=1 setsid nohup bash "$HOME/FYP/run_backend.sh" > /tmp/fyp_backend.log 2>&1 &
+FYP_VIDEO_STREAM_LOCK=1 setsid nohup bash "$FYP_ROOT/run_backend.sh" > /tmp/fyp_backend.log 2>&1 &
 sleep 15
 
 echo "== sim (world $FYP_WORLD, spawn $SPAWN_X,$SPAWN_Y) =="
 setsid env FYP_WORLD=$FYP_WORLD \
     FYP_SPAWN_X=$SPAWN_X FYP_SPAWN_Y=$SPAWN_Y \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_gazebo simulation.launch.py \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_gazebo simulation.launch.py \
     > /tmp/fyp_sim30.log 2>&1 &
 sleep 30
 
@@ -71,7 +72,7 @@ sleep 2
 
 echo "== map server (BEFORE nav2 so costmaps init with the map) =="
 source /opt/ros/lyrical/setup.bash
-source "$HOME/FYP/ros2_ws/install/setup.bash"
+source "$FYP_ROOT/ros2_ws/install/setup.bash"
 export ROS_DOMAIN_ID=0
 setsid nohup ros2 run nav2_map_server map_server \
     --ros-args -r __node:=map_server \
@@ -114,7 +115,7 @@ sleep 6
 
 echo "== nav2 on $FYP_MAP =="
 setsid env FYP_MAP=$FYP_MAP \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
     > /tmp/fyp_nav30_launch.log 2>&1 &
 sleep 35
 
@@ -143,7 +144,7 @@ echo "== GUIs =="
 setsid bash -c 'export DISPLAY=:0; exec gz sim -g -v 2' > /tmp/fyp_gzgui30.log 2>&1 &
 sleep 6
 if [ "$FYP_NO_RVIZ" != "1" ]; then
-  setsid bash -c 'source /opt/ros/lyrical/setup.bash; source '$HOME'/FYP/ros2_ws/install/setup.bash; export DISPLAY=:0; exec rviz2 -d '$HOME'/FYP/rviz_live_view.rviz' > /tmp/fyp_rviz30.log 2>&1 &
+  setsid bash -c 'source /opt/ros/lyrical/setup.bash; source '$FYP_ROOT'/ros2_ws/install/setup.bash; export DISPLAY=:0; exec rviz2 -d '$FYP_ROOT'/rviz_live_view.rviz' > /tmp/fyp_rviz30.log 2>&1 &
   sleep 3
 fi
 

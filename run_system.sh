@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/scripts/fyp_env.sh"
 # =============================================================================
 # FYP complete-system launcher (phased, readiness-gated)
 #
@@ -28,7 +29,7 @@
 # (AMENT_TRACE_SETUP_FILES is referenced unbound there). Careful quoting is
 # used instead, and every environment switch gets a default via ${VAR:-x}.
 set -o pipefail
-cd /home/hammad/FYP
+cd "$FYP_ROOT"
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; YEL='\033[1;33m'; NC='\033[0m'
 info() { echo -e "${GREEN}[FYP]${NC} $*"; }
@@ -43,9 +44,7 @@ fi
 [ -f ros2_ws/install/setup.bash ] || fail "ros2_ws not built. Run: cd ros2_ws && colcon build --symlink-install"
 source ros2_ws/install/setup.bash
 
-# Load conda env for backend/phone-sim commands
-FYP_PY=/home/hammad/miniconda3/envs/fyp/bin/python
-[ -x "$FYP_PY" ] || FYP_PY=$(command -v python3)
+# FYP_PY (backend/phone-sim interpreter) comes from scripts/fyp_env.sh
 FYP_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 SIM_PHONE="${SIM_PHONE:-1}"
@@ -122,7 +121,7 @@ if backend_healthy; then
     info "Backend already healthy on :8000"
 else
     info "Starting backend (log: /tmp/fyp_backend.log)"
-    setsid nohup env PYTHONPATH=/home/hammad/FYP "$FYP_PY" -m uvicorn \
+    setsid nohup env PYTHONPATH=$FYP_ROOT "$FYP_PY" -m uvicorn \
         backend.api.main:app --host 0.0.0.0 --port 8000 \
         > /tmp/fyp_backend.log 2>&1 < /dev/null &
     wait_for "backend /health" 120 bash -c 'curl -s -m 3 http://127.0.0.1:8000/health | grep -q status' \
@@ -161,7 +160,7 @@ info "Phase 1: Gazebo world + robot + ROS bridge (log: /tmp/fyp_sim.launch.log)"
 setsid nohup ros2 launch indoor_nav_gazebo simulation.launch.py \
     > /tmp/fyp_sim.launch.log 2>&1 < /dev/null &
 
-wait_for "/clock flowing"       60 bash -c "source /opt/ros/lyrical/setup.bash && source /home/hammad/FYP/ros2_ws/install/setup.bash && timeout 12 ros2 topic hz /clock --window 10 2>/dev/null | grep -q 'average rate'" \
+wait_for "/clock flowing"       60 bash -c "source /opt/ros/lyrical/setup.bash && source $FYP_ROOT/ros2_ws/install/setup.bash && timeout 12 ros2 topic hz /clock --window 10 2>/dev/null | grep -q 'average rate'" \
     || warn "/clock not flowing yet"
 wait_for "/odom flowing"        60 topic_flowing /odom \
     || warn "/odom not flowing yet (robot spawn failed? see /tmp/fyp_sim.launch.log)"

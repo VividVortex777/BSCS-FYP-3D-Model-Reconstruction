@@ -32,7 +32,9 @@ try:
 except ImportError:
     sys.exit("run with the fyp conda env (needs open3d + scipy)")
 
-BASE = sys.argv[1] if len(sys.argv) > 1 else "/home/hammad/FYP/realroom/capture_fresh"
+BASE = sys.argv[1] if len(sys.argv) > 1 else os.path.join(
+    os.environ.get("FYP_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "realroom/capture_fresh")
 MAP = f"{BASE}/realroom_{__import__('os').path.basename(BASE)}.yaml"
 POSES = f"{BASE}/colmap/sparse/txt/images.txt"
 CLOUD = f"{BASE}/fused_cloud.ply"

@@ -9,6 +9,7 @@ import socket
 import threading
 from typing import Optional
 
+from backend.core.paths import FYP_ROOT
 from backend.depth.midas_processor import MiDaSProcessor
 
 
@@ -17,8 +18,8 @@ app = FastAPI(
     version="1.0.0"
 )
 
-UPLOAD_DIR = Path.home() / "FYP" / "backend" / "uploads"
-DEPTH_DIR = Path.home() / "FYP" / "backend" / "depth" / "output"
+UPLOAD_DIR = FYP_ROOT / "backend" / "uploads"
+DEPTH_DIR = FYP_ROOT / "backend" / "depth" / "output"
 
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 DEPTH_DIR.mkdir(parents=True, exist_ok=True)

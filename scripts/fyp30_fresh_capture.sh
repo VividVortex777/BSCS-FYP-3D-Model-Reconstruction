@@ -1,13 +1,14 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Fresh 30-second recorded-video capture: phone -> backend -> paired RGB/depth.
 # - Waits for the live phone stream (health: depth_available=true)
 # - Captures paired frames for EXACTLY 30 seconds (timeout-enforced)
 # - Verifies the stream stopped (depth sequence frozen => phone disconnected)
 # - Prints dataset summary. From here on, everything downstream is OFFLINE.
 set -u
-FYP="$HOME/FYP"
+FYP="$FYP_ROOT"
 OUT="${1:-$FYP/realroom/capture_fresh}"
-PY="$HOME/miniconda3/envs/fyp/bin/python"
+PY="$FYP_PY"
 
 echo "== waiting for phone stream (connect the phone app now; max 300 s) =="
 ok=""

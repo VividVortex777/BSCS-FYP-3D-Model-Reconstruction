@@ -26,12 +26,13 @@ import numpy as np
 
 BACKEND = "http://127.0.0.1:8000"
 STAMP = time.strftime("%Y%m%d_%H%M%S")
-OUT_DIR = os.path.expanduser("~/FYP/realroom/fresh30_capture")
+FYP_ROOT = os.environ.get("FYP_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT_DIR = os.path.join(FYP_ROOT, "realroom/fresh30_capture")
 VIDEO_PATH = os.path.join(OUT_DIR, f"fresh30_{STAMP}.mp4")
 # recording length: arg 1 (seconds) or FYP_RECORD_SECONDS env, default 30 
 DURATION = float(sys.argv[1]) if len(sys.argv) > 1 else float(os.environ.get("FYP_RECORD_SECONDS", 30.0))
 FRAME_DIR = os.path.join(OUT_DIR, "raw_frames")
-LATEST_JPG = os.path.expanduser("~/FYP/backend/uploads/latest.jpg")
+LATEST_JPG = os.path.join(FYP_ROOT, "backend/uploads/latest.jpg")
 PREROLL = 15
 WAIT_MAX = 300
 APP_PKG = "com.fyp.reconstruction"

@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Offline-demo localization fix:
 # The phone is DISCONNECTED, so there is no live sensor. AMCL keeps trying to
 # scan-match the republished stale scan (authored in base_link, so it sweeps
@@ -11,7 +12,7 @@ pkill -f 'amcl' 2>/dev/null
 pkill -f 'localization_manager' 2>/dev/null
 sleep 3
 source /opt/ros/lyrical/setup.bash
-source "$HOME/FYP/ros2_ws/install/setup.bash"
+source "$FYP_ROOT/ros2_ws/install/setup.bash"
 # map = odom (robot starts at odom (0,0) == map (1.58,-1.93) spawn offset)
 setsid nohup ros2 run tf2_ros static_transform_publisher \
     1.58 -1.93 0 0 0 0 map odom \

@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Safe cleanup + relaunch of localization & navigation phases.
 # All kill patterns live in this FILE (not in the caller's command line),
 # so pkill can never match the invoking shell.
@@ -31,14 +32,14 @@ LEFT=$(pgrep -f 'amcl|map_server|planner_server|controller_server|bt_navigator|b
 echo "remaining loc/nav processes: $LEFT"
 
 echo "== relaunching localization (capture30 map) =="
-setsid env FYP_MAP=/home/hammad/FYP/realroom/capture30/realroom30_map.yaml \
+setsid env FYP_MAP=$FYP_ROOT/realroom/capture30/realroom30_map.yaml \
     FYP_INITIAL_POSE="-3.3,4.65" \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_costmap localization.launch.py \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_costmap localization.launch.py \
     > $LOGDIR/fyp_loc30.log 2>&1 &
 sleep 25
 
 echo "== relaunching navigation =="
-setsid "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
+setsid "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
     > $LOGDIR/fyp_nav30.log 2>&1 &
 sleep 35
 

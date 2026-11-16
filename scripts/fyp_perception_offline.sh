@@ -1,10 +1,11 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Offline-demo perception nodes: keep the phone-derived (saved video) depth
 # -> point cloud -> occupancy grid -> /smartphone_map pipeline running,
 # WITHOUT AMCL (pose comes from the static map->odom TF) and without the
 # base_link-authored rotating stale scan (it corrupted AMCL + costmaps).
 source /opt/ros/lyrical/setup.bash
-source "$HOME/FYP/ros2_ws/install/setup.bash"
+source "$FYP_ROOT/ros2_ws/install/setup.bash"
 
 setsid nohup ros2 run smartphone_depth_bridge depth_bridge_node \
     --ros-args -p backend_url:=http://127.0.0.1:8000/latest-depth-image \

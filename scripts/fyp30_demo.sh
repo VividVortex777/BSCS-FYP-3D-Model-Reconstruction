@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # fyp30_demo.sh — ONE-COMMAND launcher for the FYP supervisor demo
 #
 # Runs the COMPLETE recorded-video navigation demo from a cold laptop:
@@ -9,14 +10,14 @@
 #   its face -> visible slow-down -> turn/clear around it (CROSS to its far
 #   side) -> accelerate on to the next obstacle.
 #
-# Usage:   bash ~/FYP/scripts/fyp30_demo.sh              # latest reconstruction
-#          FYP_DEMO_DS=~/FYP/realroom/runs/<name> bash ~/FYP/scripts/fyp30_demo.sh
-#          bash ~/FYP/scripts/fyp30_demo.sh ~/FYP/realroom/runs/<name>
+# Usage:   bash $FYP_ROOT/scripts/fyp30_demo.sh              # latest reconstruction
+#          FYP_DEMO_DS=$FYP_ROOT/realroom/runs/<name> bash $FYP_ROOT/scripts/fyp30_demo.sh
+#          bash $FYP_ROOT/scripts/fyp30_demo.sh $FYP_ROOT/realroom/runs/<name>
 # Stop:    Ctrl-C (leaves Gazebo open; close its window manually)
 # Logs:    /tmp/fyp30_demo_onecmd.log  (demo verdict at the end)
 # =============================================================================
 set -u
-FYP="$HOME/FYP"
+FYP="$FYP_ROOT"
 # GENERIC: any reconstruction run produced by fyp30_run_pipeline.sh works.
 # Default = the most recent run; override with arg 1 or FYP_DEMO_DS env.
 if [ $# -ge 1 ]; then DS="$(realpath "$1")"

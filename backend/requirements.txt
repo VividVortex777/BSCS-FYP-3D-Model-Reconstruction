@@ -1,3 +1,20 @@
+# Backend (FastAPI + MiDaS). Install into the project venv:
+#   python3 -m venv venv && venv/bin/pip install -r backend/requirements.txt
+# Exact versions of every package that passed the Phase 0 GPU test:
+#   backend/requirements.lock.txt   (setup notes: docs/BACKEND_SETUP.md)
 fastapi
-uvicorn
+uvicorn[standard]
 python-multipart
+
+# MiDaS DPT-Hybrid inference
+# torch 2.15.0 wheels bundle CUDA 13.2 (needs NVIDIA driver >= 580).
+torch==2.15.0
+torchvision==0.29.2
+# DPT-Hybrid in the upstream MiDaS repo targets the timm 0.6 API.
+timm==0.6.13
+opencv-python-headless
+numpy
+
+# scripts/test_backend_pipeline.py (phone simulator) and HTTP clients
+requests
+websockets

@@ -20,10 +20,12 @@ import yaml
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--map', default=os.path.expanduser(
-        '~/FYP/realroom/capture30/realroom30_map.yaml'))
-    ap.add_argument('--out', default=os.path.expanduser(
-        '~/FYP/realroom/capture30/realroom30_world2.sdf'))
+    root = os.environ.get('FYP_ROOT') or os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__)))
+    ap.add_argument('--map', default=os.path.join(
+        root, 'realroom/capture30/realroom30_map.yaml'))
+    ap.add_argument('--out', default=os.path.join(
+        root, 'realroom/capture30/realroom30_world2.sdf'))
     ap.add_argument('--world-name', default='realroom30_v2')
     ap.add_argument('--wall-height', type=float, default=1.2)
     ap.add_argument('--obst-top', type=float, default=0.9)

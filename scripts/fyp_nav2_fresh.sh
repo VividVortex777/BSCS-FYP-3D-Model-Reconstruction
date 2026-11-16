@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/fyp_env.sh"
 # Clean Nav2 restart for the offline demo; sim/static-TF/backend stay up.
 # All kill patterns in-file (pkill trap safety).
 pkill -f 'navigation.launch.py' 2>/dev/null
@@ -14,13 +15,13 @@ pkill -f 'waypoint_follower' 2>/dev/null
 sleep 5
 
 echo "== launching navigation =="
-setsid env FYP_MAP=$HOME/FYP/realroom/video60/video60_map.yaml \
-    "$HOME/FYP/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
+setsid env FYP_MAP=$FYP_ROOT/realroom/video60/video60_map.yaml \
+    "$FYP_ROOT/scripts/fyp_phase.sh" indoor_nav_costmap navigation.launch.py \
     > /tmp/fyp_nav60_launch.log 2>&1 &
 
 sleep 30
 source /opt/ros/lyrical/setup.bash
-source "$HOME/FYP/ros2_ws/install/setup.bash"
+source "$FYP_ROOT/ros2_ws/install/setup.bash"
 
 # Wait for each Nav2 managed node to reach active, retrying activation if the
 # manager's transition response was lost under load.

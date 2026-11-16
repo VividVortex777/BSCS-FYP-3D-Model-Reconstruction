@@ -6,7 +6,7 @@ import uuid
 
 app = FastAPI(title="3D Reconstruction API")
 
-BASE = Path("/home/hammad/FYP")
+BASE = Path(__file__).resolve().parent.parent
 UPLOADS = BASE / "backend" / "uploads"
 MODEL = BASE / "android_model" / "model.glb"
 UPLOADS.mkdir(parents=True, exist_ok=True)

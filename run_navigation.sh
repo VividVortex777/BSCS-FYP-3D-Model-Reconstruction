@@ -1,4 +1,5 @@
 #!/bin/bash
+source "$(dirname "${BASH_SOURCE[0]}")/scripts/fyp_env.sh"
 # =============================================================================
 # run_navigation.sh — ONE-COMMAND generic recorded-video navigation (FYP)
 #
@@ -17,8 +18,7 @@
 # recording cannot be reconstructed instead of inventing geometry.
 # =============================================================================
 set -o pipefail
-cd /home/hammad/FYP
-FYP_PY=/home/hammad/miniconda3/envs/fyp/bin/python
+cd "$FYP_ROOT"
 
 INPUT="${1:?usage: ./run_navigation.sh <video.mp4|dataset_dir>}"
 GOAL_OVERRIDE="${GOAL_X:+set}"          # optional manual override (testing only)
@@ -31,7 +31,7 @@ bash scripts/fyp30_run_pipeline.sh "$INPUT" || {
 # locate the nav_targets.env produced above (input may be a pre-existing dir)
 if [ -d "$INPUT" ]; then DS=$(realpath "$INPUT"); else
     SAFE=$(basename "$INPUT" | sed 's/\.[^.]*$//' | tr -c 'a-zA-Z0-9_' '_' | sed 's/_*$//')
-    DS=/home/hammad/FYP/realroom/runs/$SAFE; fi
+    DS=$FYP_ROOT/realroom/runs/$SAFE; fi
 set -a; source "$DS/nav_targets.env"; set +a
 echo "dataset: $DS"
 echo "spawn ($SPAWN_X,$SPAWN_Y)  goal ($GOAL_X,$GOAL_Y)"
@@ -43,7 +43,7 @@ bash scripts/fyp_realroom30_up.sh 2>&1 | tail -25 || {
 
 step "STAGE C — verify plan, then navigate"
 source /opt/ros/lyrical/setup.bash
-source /home/hammad/FYP/ros2_ws/install/setup.bash
+source $FYP_ROOT/ros2_ws/install/setup.bash
 export ROS_DOMAIN_ID=0
 export DISPLAY=:0
 export FYP_TRAJ_LOG="$DS/trajectory_odom.log"   # per-dataset evidence
