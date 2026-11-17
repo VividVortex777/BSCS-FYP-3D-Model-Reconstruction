@@ -60,23 +60,66 @@ def generate_launch_description():
         ],
     )
 
+    # Which depth feeds /scan (and therefore AMCL):
+    #   FYP_DEPTH_SOURCE=phone   (default) MiDaS depth from the smartphone
+    #                            stream via the backend.
+    #   FYP_DEPTH_SOURCE=gazebo  the simulated robot's depth camera, so AMCL
+    #                            sees the same room that Gazebo simulates.
+    #                            simulation.launch.py must be started with the
+    #                            same setting (it bridges the camera).
+    depth_source = os.environ.get("FYP_DEPTH_SOURCE", "phone")
+    if depth_source not in ("phone", "gazebo"):
+        raise ValueError(
+            f"FYP_DEPTH_SOURCE must be 'phone' or 'gazebo', got {depth_source!r}"
+        )
+
+    if depth_source == "gazebo":
+        scan_params = {
+            "depth_topic": "/rgbd_camera/depth_image",     # 32FC1, metres
+            "camera_info_topic": "/rgbd_camera/camera_info",
+            "depth_mode": "metric",
+            # Rigid camera frame (simulation.launch.py, base_link + 0.35/0/0.10)
+            "camera_frame": "sim_depth_camera",
+            # Levelled scan frame, published by depth_to_scan per image:
+            # camera position and heading, roll/pitch removed.
+            "scan_frame_id": "sim_depth_scan",
+            # odom is gravity-aligned in Gazebo (the odometry plugin reports
+            # the true pose), so it gives the camera's real roll and pitch.
+            "level_reference_frame": "odom",
+            # Accept rays rising 1.1 deg to 8.6 deg above horizontal: never
+            # the floor; at 5.5 m they sample 0.11 m to 0.83 m above the
+            # camera (~0.28 m), i.e. walls (3 m) and obstacles (>= 1 m).
+            "min_elevation_rad": 0.02,
+            "max_elevation_rad": 0.15,
+            "target_beams": 160,
+            "pixel_stride": 2,
+            "min_range": 0.15,
+            "obstacle_max_range": 3.0,
+            # Must match the rgbd sensor's far clip (8 m).
+            "clearing_max_range": 8.0,
+        }
+    else:
+        scan_params = {
+            "depth_topic": "/smartphone/depth",
+            "scan_frame_id": "base_link",
+            "inverse_depth": True,
+            "min_range": 0.15,
+            "obstacle_max_range": 3.0,
+            "clearing_max_range": 3.5,
+            # MiDaS depth is relative; anchor the nearest visible surface
+            # at this distance instead of min_range so walls are not
+            # permanently reported as bumper-distance obstacles.
+            "near_range_anchor": 2.00,
+        }
+
     depth_to_scan = Node(
         package="indoor_nav_costmap",
         executable="depth_to_scan",
         output="screen",
         parameters=[
             {
-                "depth_topic": "/smartphone/depth",
                 "scan_topic": "/scan",
-                "scan_frame_id": "base_link",
-                "inverse_depth": True,
-                "min_range": 0.15,
-                "obstacle_max_range": 3.0,
-                "clearing_max_range": 3.5,
-                # MiDaS depth is relative; anchor the nearest visible surface
-                # at this distance instead of min_range so walls are not
-                # permanently reported as bumper-distance obstacles.
-                "near_range_anchor": 2.00,
+                **scan_params,
                 "use_sim_time": True,
             }
         ],
@@ -95,12 +138,44 @@ def generate_launch_description():
         ],
     )
 
+    amcl_params = [
+        params_file,
+        {"set_initial_pose": True, "initial_pose.x": initial_pose[0], "initial_pose.y": initial_pose[1]},
+    ]
+    if depth_source == "gazebo":
+        # Simulation-only AMCL tuning (phone mode keeps nav2_params.yaml).
+        # Gazebo's odometry plugin reports the true pose (measured: /odom ==
+        # ground truth), whereas the defaults (alpha 0.2, update every 0.25 m
+        # / 0.2 rad) are sized for real wheel slip. With them the particle
+        # cloud spread to 1-sigma 0.23 m (x) / 0.34 m (y) over a 2.5 m drive,
+        # more than the 0.15 m goal requirement.
+        amcl_params.append(
+            {
+                # Motion-model noise 10x below default: small, not zero, so
+                # the filter can still absorb residual model/TF timing error.
+                "alpha1": 0.02,   # rotation noise from rotation
+                "alpha2": 0.02,   # rotation noise from translation
+                "alpha3": 0.02,   # translation noise from translation
+                "alpha4": 0.02,   # translation noise from rotation
+                # Correct every 5 cm / ~3 deg instead of 25 cm / 11 deg.
+                "update_min_d": 0.05,
+                "update_min_a": 0.05,
+                # 5x more filter updates: resample every 2nd update to avoid
+                # particle depletion from repeated, correlated scan weights.
+                "resample_interval": 2,
+                # Measured scan error vs the world: median 1.2 cm, p95 4.4 cm;
+                # map resolution 5 cm. 0.2 m makes the likelihood too flat to
+                # pull the estimate onto walls; 0.1 m is still 2 map cells.
+                "sigma_hit": 0.1,
+            }
+        )
+
     amcl = Node(
         package="nav2_amcl",
         executable="amcl",
         name="amcl",
         output="screen",
-        parameters=[params_file, {"set_initial_pose": True, "initial_pose.x": initial_pose[0], "initial_pose.y": initial_pose[1]}],
+        parameters=amcl_params,
         remappings=[("scan", "/scan")],
     )
 

@@ -1,0 +1,40 @@
+[run 1 09:34:19] clean state: stopping any previous stack
+[run 1 09:34:25] starting fresh stack (FYP_DEPTH_SOURCE=gazebo)
+[run 1 09:37:18] pre-checks
+[run 1 09:38:07] lifecycle active=6/6 tf_ok=4/4 rates={"odom_hz": 19.6, "scan_hz": 8.6, "depth_hz": 7.6, "clock_hz": 955.4, "odom_v0": 0.0, "odom_w0": 0.0} truth0=(0.013616168581306294 -1.9998657659353281 )
+[run 1 09:38:10] sending goal (2.0, 0.0)
+[run 1 09:38:31] action result=SUCCEEDED rc=0
+{"run": 1, "ready": true, "lifecycle": "map_server=active [3];amcl=active [3];controller_server=active [3];planner_server=active [3];behavior_server=active [3];bt_navigator=active [3];", "params": "amcl.alpha1=0.02 amcl.alpha2=0.02 amcl.alpha3=0.02 amcl.alpha4=0.02 amcl.update_min_d=0.05 amcl.update_min_a=0.05 amcl.resample_interval=2 amcl.sigma_hit=0.1 general_goal_checker.xy_goal_tolerance=0.05 general_goal_checker.yaw_goal_tolerance=0.25", "rates": {"odom_hz": 19.6, "scan_hz": 8.6, "depth_hz": 7.6, "clock_hz": 955.4, "odom_v0": 0.0, "odom_w0": 0.0}, "tf_ok": 4, "init_truth": [0.013616168581306294, -1.999865765935328], "init_amcl": "amcl_pose (0.000,-2.000) stamp=79  1-sigma: x=0.000 m  y=0.000 m  yaw=0.00 deg", "result": "SUCCEEDED", "goal_rc": 0, "duration_s": 20.69, "stop": {"stopped": true, "stopped_sim_t": 229.65, "wait_wall_s": 3.1}, "final_truth": [1.9236171354574745, -0.09436998389526281], "final_amcl": [1.963, -0.04], "amcl_sigma": [0.05, 0.057, 3.87], "gt_dist_from_goal": 0.1214, "loc_error": 0.0671, "events": "Goal succeeded=1;Reached the goal!=1;", "amcl_updates": 16, "pass": true}
+[run 1 09:38:38] stopping stack
+[run 2 09:38:48] clean state: stopping any previous stack
+[run 2 09:38:54] starting fresh stack (FYP_DEPTH_SOURCE=gazebo)
+[run 2 09:41:44] pre-checks
+[run 2 09:42:32] lifecycle active=6/6 tf_ok=4/4 rates={"odom_hz": 19.6, "scan_hz": 6.0, "depth_hz": 6.8, "clock_hz": 893.4, "odom_v0": 0.0, "odom_w0": 0.0} truth0=(0.013616168581306294 -1.9998657659353281 )
+[run 2 09:42:35] sending goal (2.0, 0.0)
+[run 2 09:42:48] action result=SUCCEEDED rc=0
+{"run": 2, "ready": true, "lifecycle": "map_server=active [3];amcl=active [3];controller_server=active [3];planner_server=active [3];behavior_server=active [3];bt_navigator=active [3];", "params": "amcl.alpha1=0.02 amcl.alpha2=0.02 amcl.alpha3=0.02 amcl.alpha4=0.02 amcl.update_min_d=0.05 amcl.update_min_a=0.05 amcl.resample_interval=2 amcl.sigma_hit=0.1 general_goal_checker.xy_goal_tolerance=0.05 general_goal_checker.yaw_goal_tolerance=0.25", "rates": {"odom_hz": 19.6, "scan_hz": 6.0, "depth_hz": 6.8, "clock_hz": 893.4, "odom_v0": 0.0, "odom_w0": 0.0}, "tf_ok": 4, "init_truth": [0.013616168581306294, -1.999865765935328], "init_amcl": "amcl_pose (0.000,-2.000) stamp=78  1-sigma: x=0.000 m  y=0.000 m  yaw=0.00 deg", "result": "SUCCEEDED", "goal_rc": 0, "duration_s": 12.61, "stop": {"stopped": true, "stopped_sim_t": 219.35, "wait_wall_s": 3.6}, "final_truth": [1.9246498608886318, -0.09233088018182588], "final_amcl": [1.969, -0.036], "amcl_sigma": [0.029, 0.047, 1.23], "gt_dist_from_goal": 0.1192, "loc_error": 0.0717, "events": "Goal succeeded=1;Reached the goal!=1;", "amcl_updates": 15, "pass": true}
+[run 2 09:42:57] stopping stack
+[run 3 09:43:07] clean state: stopping any previous stack
+[run 3 09:43:12] starting fresh stack (FYP_DEPTH_SOURCE=gazebo)
+[run 3 09:46:03] pre-checks
+[run 3 09:46:54] lifecycle active=6/6 tf_ok=4/4 rates={"odom_hz": 9.2, "scan_hz": 6.0, "depth_hz": 2.0, "clock_hz": 434.0, "odom_v0": 0.0, "odom_w0": 0.0} truth0=(0.013616168581306294 -1.9998657659353281 )
+[run 3 09:46:57] sending goal (2.0, 0.0)
+[run 3 09:47:10] action result=SUCCEEDED rc=0
+{"run": 3, "ready": true, "lifecycle": "map_server=active [3];amcl=active [3];controller_server=active [3];planner_server=active [3];behavior_server=active [3];bt_navigator=active [3];", "params": "amcl.alpha1=0.02 amcl.alpha2=0.02 amcl.alpha3=0.02 amcl.alpha4=0.02 amcl.update_min_d=0.05 amcl.update_min_a=0.05 amcl.resample_interval=2 amcl.sigma_hit=0.1 general_goal_checker.xy_goal_tolerance=0.05 general_goal_checker.yaw_goal_tolerance=0.25", "rates": {"odom_hz": 9.2, "scan_hz": 6.0, "depth_hz": 2.0, "clock_hz": 434.0, "odom_v0": 0.0, "odom_w0": 0.0}, "tf_ok": 4, "init_truth": [0.013616168581306294, -1.999865765935328], "init_amcl": "amcl_pose (0.000,-2.000) stamp=77  1-sigma: x=0.000 m  y=0.000 m  yaw=0.00 deg", "result": "SUCCEEDED", "goal_rc": 0, "duration_s": 12.62, "stop": {"stopped": true, "stopped_sim_t": 221.8, "wait_wall_s": 3.2}, "final_truth": [1.9352875179338085, -0.08351822898099688], "final_amcl": [1.975, -0.029], "amcl_sigma": [0.03, 0.035, 1.18], "gt_dist_from_goal": 0.1057, "loc_error": 0.0674, "events": "Goal succeeded=1;Reached the goal!=1;", "amcl_updates": 17, "pass": true}
+[run 3 09:47:18] stopping stack
+[run 4 09:47:28] clean state: stopping any previous stack
+[run 4 09:47:34] starting fresh stack (FYP_DEPTH_SOURCE=gazebo)
+[run 4 09:50:25] pre-checks
+[run 4 09:51:12] lifecycle active=6/6 tf_ok=4/4 rates={"odom_hz": 17.6, "scan_hz": 6.2, "depth_hz": 4.8, "clock_hz": 772.4, "odom_v0": 0.0, "odom_w0": 0.0} truth0=(0.013616168581306294 -1.9998657659353281 )
+[run 4 09:51:15] sending goal (2.0, 0.0)
+[run 4 09:51:28] action result=SUCCEEDED rc=0
+{"run": 4, "ready": true, "lifecycle": "map_server=active [3];amcl=active [3];controller_server=active [3];planner_server=active [3];behavior_server=active [3];bt_navigator=active [3];", "params": "amcl.alpha1=0.02 amcl.alpha2=0.02 amcl.alpha3=0.02 amcl.alpha4=0.02 amcl.update_min_d=0.05 amcl.update_min_a=0.05 amcl.resample_interval=2 amcl.sigma_hit=0.1 general_goal_checker.xy_goal_tolerance=0.05 general_goal_checker.yaw_goal_tolerance=0.25", "rates": {"odom_hz": 17.6, "scan_hz": 6.2, "depth_hz": 4.8, "clock_hz": 772.4, "odom_v0": 0.0, "odom_w0": 0.0}, "tf_ok": 4, "init_truth": [0.013616168581306294, -1.999865765935328], "init_amcl": "amcl_pose (0.000,-2.000) stamp=78  1-sigma: x=0.000 m  y=0.000 m  yaw=0.00 deg", "result": "SUCCEEDED", "goal_rc": 0, "duration_s": 12.84, "stop": {"stopped": true, "stopped_sim_t": 218.0, "wait_wall_s": 3.1}, "final_truth": [1.9082442875844132, -0.11165239752300765], "final_amcl": [1.966, -0.048], "amcl_sigma": [0.033, 0.044, 1.47], "gt_dist_from_goal": 0.1445, "loc_error": 0.0859, "events": "Goal succeeded=1;Reached the goal!=1;", "amcl_updates": 14, "pass": true}
+[run 4 09:51:36] stopping stack
+[run 5 09:51:46] clean state: stopping any previous stack
+[run 5 09:51:51] starting fresh stack (FYP_DEPTH_SOURCE=gazebo)
+[run 5 09:54:46] pre-checks
+[run 5 09:55:36] lifecycle active=6/6 tf_ok=4/4 rates={"odom_hz": 17.8, "scan_hz": 8.0, "depth_hz": 6.8, "clock_hz": 777.0, "odom_v0": 0.0, "odom_w0": 0.0} truth0=(0.013616168581306294 -1.9998657659353281 )
+[run 5 09:55:39] sending goal (2.0, 0.0)
+[run 5 09:55:53] action result=SUCCEEDED rc=0
+{"run": 5, "ready": true, "lifecycle": "map_server=active [3];amcl=active [3];controller_server=active [3];planner_server=active [3];behavior_server=active [3];bt_navigator=active [3];", "params": "amcl.alpha1=0.02 amcl.alpha2=0.02 amcl.alpha3=0.02 amcl.alpha4=0.02 amcl.update_min_d=0.05 amcl.update_min_a=0.05 amcl.resample_interval=2 amcl.sigma_hit=0.1 general_goal_checker.xy_goal_tolerance=0.05 general_goal_checker.yaw_goal_tolerance=0.25", "rates": {"odom_hz": 17.8, "scan_hz": 8.0, "depth_hz": 6.8, "clock_hz": 777.0, "odom_v0": 0.0, "odom_w0": 0.0}, "tf_ok": 4, "init_truth": [0.013616168581306294, -1.999865765935328], "init_amcl": "amcl_pose (0.000,-2.000) stamp=78  1-sigma: x=0.000 m  y=0.000 m  yaw=0.00 deg", "result": "SUCCEEDED", "goal_rc": 0, "duration_s": 13.69, "stop": {"stopped": true, "stopped_sim_t": 225.4, "wait_wall_s": 3.1}, "final_truth": [1.9185894008300277, -0.0952242010059092], "final_amcl": [1.97, -0.054], "amcl_sigma": [0.031, 0.037, 1.34], "gt_dist_from_goal": 0.1253, "loc_error": 0.0659, "events": "Goal succeeded=1;Reached the goal!=1;", "amcl_updates": 15, "pass": true}
+[run 5 09:56:01] stopping stack

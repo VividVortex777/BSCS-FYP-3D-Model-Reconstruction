@@ -12,6 +12,16 @@
   <depend>geometry_msgs</depend>
   <depend>sensor_msgs</depend>
 
+  <!-- Used by the launch files -->
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ros_gz_sim</exec_depend>
+  <exec_depend>ros_gz_bridge</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <!-- fyp_bringup.launch.py includes the localization/navigation launches -->
+  <exec_depend>indoor_nav_costmap</exec_depend>
+
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_mypy</test_depend>

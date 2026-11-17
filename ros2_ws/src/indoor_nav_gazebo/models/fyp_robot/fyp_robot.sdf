@@ -447,7 +447,10 @@
       filename="gz-sim-odometry-publisher-system"
       name="gz::sim::systems::OdometryPublisher">
       <odom_frame>odom</odom_frame>
-      <child_frame_id>base_link</child_frame_id>
+      <!-- gz-sim reads the child frame from robot_base_frame; an unknown
+           element is ignored and the default <model>/base_footprint is
+           published, which disconnects odom from base_link. -->
+      <robot_base_frame>base_link</robot_base_frame>
       <odom_topic>/odom</odom_topic>
       <tf_topic>/tf</tf_topic>
       <odom_publish_frequency>20</odom_publish_frequency>

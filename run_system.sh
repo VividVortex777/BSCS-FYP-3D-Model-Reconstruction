@@ -20,6 +20,11 @@ source "$(dirname "${BASH_SOURCE[0]}")/scripts/fyp_env.sh"
 #                    Android phone streams frames)
 #   SKIP_CLEANUP=1   do not kill stale FYP ROS/Gazebo processes first
 #   KEEP_BACKEND=1   never touch a running backend (default behaviour)
+#   FYP_DEPTH_SOURCE=gazebo
+#                    build /scan (and so AMCL localisation) from the simulated
+#                    robot's depth camera instead of the phone's MiDaS depth.
+#                    Use for simulation tests where the phone frames do not
+#                    show the simulated room. Default: phone.
 #
 # Only ever kills processes belonging to this project (FYP paths, the indoor
 # world, launch_params-scope ROS nodes started by this project's launches).
@@ -53,6 +58,7 @@ SKIP_CLEANUP="${SKIP_CLEANUP:-0}"
 echo "======================================="
 echo " FYP smartphone-depth navigation stack"
 echo "======================================="
+info "Depth source for /scan: ${FYP_DEPTH_SOURCE:-phone}"
 
 # -----------------------------------------------------------------------------
 # Cleanup: only processes that belong to this project
@@ -110,7 +116,8 @@ topic_flowing() { timeout 15 ros2 topic hz "$1" --window 3 2>/dev/null | grep -q
 # cannot receive. Probe with a matching sensor-QoS rclpy listener instead.
 sensor_topic_flowing() { timeout 15 /usr/bin/python3 "$FYP_DIR/scripts/topic_probe.py" "$1" 2>/dev/null; }
 tf_available()  { timeout 12 ros2 run tf2_ros tf2_echo "$1" "$2" 2>/dev/null | grep -m1 -q "Rotation"; }
-lifecycle_active() { timeout 10 ros2 lifecycle get "/$1" 2>/dev/null | grep -q "active"; }
+# Anchored: `ros2 lifecycle get` prints "active [3]" or "inactive [2]".
+lifecycle_active() { timeout 10 ros2 lifecycle get "/$1" 2>/dev/null | grep -q "^active"; }
 backend_healthy() { curl -s -m 3 http://127.0.0.1:8000/health | grep -q '"status"'; }
 
 # =============================================================================

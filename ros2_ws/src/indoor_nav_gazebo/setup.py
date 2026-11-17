@@ -25,9 +25,15 @@ setup(
             os.path.join('share', package_name, 'worlds'),
             glob('worlds/*.sdf')
         ),
+        # data_files entries must list files only: setuptools cannot copy a
+        # directory, so each model sub-folder gets its own entry.
         (
             os.path.join('share', package_name, 'models/fyp_robot'),
-            glob('models/fyp_robot/*')
+            [f for f in glob('models/fyp_robot/*') if os.path.isfile(f)]
+        ),
+        (
+            os.path.join('share', package_name, 'models/fyp_robot/meshes'),
+            glob('models/fyp_robot/meshes/*')
         ),
     ],
     install_requires=['setuptools'],
@@ -36,7 +42,11 @@ setup(
     maintainer_email='hammad@example.com',
     description='FYP indoor Gazebo simulation',
     license='Apache-2.0',
-    tests_require=['pytest'],
+    extras_require={
+        'test': [
+            'pytest',
+        ],
+    },
     entry_points={
         'console_scripts': [],
     },

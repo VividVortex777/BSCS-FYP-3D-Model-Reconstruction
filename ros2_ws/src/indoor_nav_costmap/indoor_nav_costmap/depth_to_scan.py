@@ -1,9 +1,17 @@
+import math
+
 import rclpy
+from rclpy.callback_groups import MutuallyExclusiveCallbackGroup
+from rclpy.duration import Duration
+from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
-from sensor_msgs.msg import Image, LaserScan
+from rclpy.time import Time
+from geometry_msgs.msg import TransformStamped
+from sensor_msgs.msg import CameraInfo, Image, LaserScan
 from cv_bridge import CvBridge
 import numpy as np
+from tf2_ros import Buffer, TransformBroadcaster, TransformException, TransformListener
 
 
 class DepthToScan(Node):
@@ -32,6 +40,33 @@ class DepthToScan(Node):
         # (navigation stalls); a moderate anchor stays conservative (reported
         # ranges are shorter than reality) yet allows forward progress.
         self.declare_parameter("near_range_anchor", 0.15)
+        # "relative": MiDaS relative depth (smartphone path, default).
+        # "metric": true depth in metres along the optical axis (32FC1), e.g.
+        # the Gazebo depth camera. Every pixel is back-projected with the
+        # camera's real intrinsics, rotated into a gravity-levelled frame and
+        # binned into a horizontal planar scan (see levelled_scan_from_depth).
+        self.declare_parameter("depth_mode", "relative")
+        # --- metric mode only ---------------------------------------------
+        self.declare_parameter("camera_info_topic", "/rgbd_camera/camera_info")
+        # TF frame rigidly attached to the camera, REP 103 body axes
+        # (x forward along the optical axis, y left, z up).
+        self.declare_parameter("camera_frame", "sim_depth_camera")
+        # Gravity-aligned frame used to measure the camera's roll and pitch
+        # at each image's timestamp. "" assumes the camera is level.
+        self.declare_parameter("level_reference_frame", "odom")
+        # Vertical filter, as elevation angles above the horizontal plane
+        # through the camera. A point is used only if its elevation lies in
+        # [min, max]. With min > 0 every accepted ray rises, so it can never
+        # reach the floor (floor points are always below the camera). At
+        # horizontal distance d an accepted point lies between
+        # d*tan(min) and d*tan(max) above the camera, so surfaces lower than
+        # camera_height + d*tan(min) are not seen (walls and obstacles taller
+        # than the camera are).
+        self.declare_parameter("min_elevation_rad", 0.02)
+        self.declare_parameter("max_elevation_rad", 0.15)
+        self.declare_parameter("tf_timeout_s", 0.2)
+        # Use every n-th pixel in u and v (1 = all pixels).
+        self.declare_parameter("pixel_stride", 1)
 
         depth_topic = self.get_parameter("depth_topic").value
         scan_topic = self.get_parameter("scan_topic").value
@@ -60,6 +95,37 @@ class DepthToScan(Node):
         self.near_range_anchor = float(
             self.get_parameter("near_range_anchor").value
         )
+        self.depth_mode = str(self.get_parameter("depth_mode").value)
+        if self.depth_mode not in ("relative", "metric"):
+            raise ValueError("depth_mode must be 'relative' or 'metric'")
+        self.camera_frame = str(self.get_parameter("camera_frame").value)
+        self.level_reference_frame = str(
+            self.get_parameter("level_reference_frame").value
+        )
+        self.min_elevation = float(self.get_parameter("min_elevation_rad").value)
+        self.max_elevation = float(self.get_parameter("max_elevation_rad").value)
+        self.tf_timeout = Duration(
+            seconds=float(self.get_parameter("tf_timeout_s").value)
+        )
+        self.pixel_stride = int(self.get_parameter("pixel_stride").value)
+        self.intrinsics = None  # (fx, fy, cx, cy, width) from CameraInfo
+        if self.depth_mode == "metric":
+            if not (-math.pi / 2 < self.min_elevation < self.max_elevation < math.pi / 2):
+                raise ValueError("elevation limits must satisfy -pi/2 < min < max < pi/2")
+            if self.pixel_stride < 1:
+                raise ValueError("pixel_stride must be >= 1")
+            self.tf_buffer = Buffer()
+            # TF callbacks live in the listener's own reentrant group; with the
+            # MultiThreadedExecutor in main() they keep filling the buffer while
+            # a depth callback waits for the transform at its image time.
+            self.tf_listener = TransformListener(self.tf_buffer, self)
+            self.tf_broadcaster = TransformBroadcaster(self)
+            self.create_subscription(
+                CameraInfo,
+                str(self.get_parameter("camera_info_topic").value),
+                self.camera_info_callback,
+                qos_profile_sensor_data,
+            )
 
         if not (
             0.0 <= self.vertical_roi_top < self.vertical_roi_bottom <= 1.0
@@ -85,6 +151,7 @@ class DepthToScan(Node):
             depth_topic,
             self.depth_callback,
             qos_profile_sensor_data,
+            callback_group=MutuallyExclusiveCallbackGroup(),
         )
 
         self.pub = self.create_publisher(
@@ -177,12 +244,177 @@ class DepthToScan(Node):
 
         return np.clip(downsampled, min_range, clearing_max_range)
 
+    @staticmethod
+    def levelled_scan_from_depth(
+        depth,
+        fx,
+        fy,
+        cx,
+        cy,
+        roll,
+        pitch,
+        min_elevation,
+        max_elevation,
+        angle_min,
+        angle_max,
+        beam_count,
+        min_range,
+        max_range,
+        stride=1,
+    ):
+        """Turn a metric depth image into a horizontal planar scan.
+
+        1. Back-project every pixel (u, v) with optical depth z through the
+           pinhole model into the camera body frame (x forward, y left, z up):
+           x = z, y = -(u - cx) z / fx, h = -(v - cy) z / fy.
+        2. Rotate by the camera's roll and pitch, p' = Ry(pitch) Rx(roll) p,
+           into the levelled frame: same origin and heading as the camera,
+           z aligned with gravity.
+        3. Keep points whose elevation angle lies in
+           [min_elevation, max_elevation] and whose horizontal distance lies
+           in [min_range, max_range].
+        4. Bin by horizontal bearing atan2(y', x'); each bin keeps its
+           nearest horizontal distance. Empty bins are +inf (REP 117: no
+           return within range).
+        Non-finite or non-positive depths (no return / nearer than the near
+        clip) carry no distance and are ignored.
+        """
+        depth = np.asarray(depth, dtype=np.float32)
+        if depth.ndim != 2 or depth.shape[0] < 2 or depth.shape[1] < 2:
+            return None
+        if beam_count < 2 or not angle_min < angle_max:
+            return None
+
+        z = depth[::stride, ::stride].astype(np.float64)
+        v, u = np.mgrid[0:depth.shape[0]:stride, 0:depth.shape[1]:stride]
+        valid = np.isfinite(z) & (z > 0.0)
+        z = np.where(valid, z, 0.0)
+
+        x = z
+        y = -(u - cx) * z / fx
+        h = -(v - cy) * z / fy
+
+        cr, sr = math.cos(roll), math.sin(roll)
+        cp, sp = math.cos(pitch), math.sin(pitch)
+        y_r = cr * y - sr * h          # Rx(roll)
+        h_r = sr * y + cr * h
+        x_l = cp * x + sp * h_r        # Ry(pitch)
+        h_l = -sp * x + cp * h_r
+        y_l = y_r
+
+        horizontal = np.hypot(x_l, y_l)
+        elevation = np.arctan2(h_l, horizontal)
+        bearing = np.arctan2(y_l, x_l)
+        keep = (
+            valid
+            & (elevation >= min_elevation)
+            & (elevation <= max_elevation)
+            & (horizontal >= min_range)
+            & (horizontal <= max_range)
+            & (bearing >= angle_min)
+            & (bearing <= angle_max)
+        )
+
+        increment = (angle_max - angle_min) / (beam_count - 1)
+        index = np.rint((bearing[keep] - angle_min) / increment).astype(np.int64)
+        ranges = np.full(beam_count, np.inf, dtype=np.float64)
+        np.minimum.at(ranges, np.clip(index, 0, beam_count - 1), horizontal[keep])
+        return ranges.astype(np.float32)
+
+    @staticmethod
+    def roll_pitch_from_quaternion(qx, qy, qz, qw):
+        """Roll and pitch of a ZYX (yaw-pitch-roll) rotation, in radians."""
+        roll = math.atan2(2.0 * (qw * qx + qy * qz), 1.0 - 2.0 * (qx * qx + qy * qy))
+        pitch = math.asin(max(-1.0, min(1.0, 2.0 * (qw * qy - qz * qx))))
+        return roll, pitch
+
+    def camera_info_callback(self, msg):
+        k = msg.k
+        if k[0] <= 0.0 or k[4] <= 0.0:
+            return
+        intrinsics = (float(k[0]), float(k[4]), float(k[2]), float(k[5]), int(msg.width))
+        if intrinsics != self.intrinsics:
+            self.intrinsics = intrinsics
+            self.get_logger().info(
+                "camera intrinsics fx=%.2f fy=%.2f cx=%.1f cy=%.1f width=%d" % intrinsics
+            )
+
+    def publish_metric_scan(self, msg, depth):
+        if self.intrinsics is None:
+            self.get_logger().warning(
+                "no CameraInfo yet; skipping depth image", throttle_duration_sec=5.0
+            )
+            return
+        fx, fy, cx, cy, width = self.intrinsics
+
+        roll = pitch = 0.0
+        if self.level_reference_frame:
+            try:
+                # Camera attitude at the image's own acquisition time.
+                tf = self.tf_buffer.lookup_transform(
+                    self.level_reference_frame,
+                    self.camera_frame,
+                    Time.from_msg(msg.header.stamp),
+                    timeout=self.tf_timeout,
+                )
+            except TransformException as exc:
+                self.get_logger().warning(
+                    f"no {self.level_reference_frame}->{self.camera_frame} TF at image time: {exc}",
+                    throttle_duration_sec=5.0,
+                )
+                return
+            q = tf.transform.rotation
+            roll, pitch = self.roll_pitch_from_quaternion(q.x, q.y, q.z, q.w)
+
+        # Bearing limits of the image's left/right edge columns.
+        angle_max = math.atan2(cx, fx)
+        angle_min = -math.atan2(width - 1 - cx, fx)
+        ranges = self.levelled_scan_from_depth(
+            depth, fx, fy, cx, cy, roll, pitch,
+            self.min_elevation, self.max_elevation,
+            angle_min, angle_max, self.target_beams,
+            self.min_range, self.clearing_max_range, self.pixel_stride,
+        )
+        if ranges is None:
+            self.get_logger().warning("Ignoring malformed metric depth image")
+            return
+
+        # Levelled frame = camera frame with roll and pitch undone:
+        # R(camera -> levelled) = (Ry(pitch) Rx(roll))^T = Rx(-roll) Ry(-pitch).
+        cr, sr = math.cos(-roll / 2.0), math.sin(-roll / 2.0)
+        cp, sp = math.cos(-pitch / 2.0), math.sin(-pitch / 2.0)
+        level_tf = TransformStamped()
+        level_tf.header.stamp = msg.header.stamp
+        level_tf.header.frame_id = self.camera_frame
+        level_tf.child_frame_id = self.scan_frame_id
+        level_tf.transform.rotation.w = cr * cp
+        level_tf.transform.rotation.x = sr * cp
+        level_tf.transform.rotation.y = cr * sp
+        level_tf.transform.rotation.z = sr * sp
+        self.tf_broadcaster.sendTransform(level_tf)
+
+        scan = LaserScan()
+        scan.header.stamp = msg.header.stamp
+        scan.header.frame_id = self.scan_frame_id
+        scan.angle_min = angle_min
+        scan.angle_max = angle_max
+        scan.angle_increment = (angle_max - angle_min) / (len(ranges) - 1)
+        scan.time_increment = 0.0
+        scan.scan_time = 0.0
+        scan.range_min = self.min_range
+        scan.range_max = self.clearing_max_range
+        scan.ranges = ranges.tolist()
+        self.pub.publish(scan)
+
     def depth_callback(self, msg):
         try:
             depth = self.bridge.imgmsg_to_cv2(
                 msg,
                 desired_encoding="passthrough",
             )
+            if self.depth_mode == "metric":
+                self.publish_metric_scan(msg, depth)
+                return
             ranges = self.ranges_from_relative_depth(
                 depth,
                 self.vertical_roi_top,
@@ -228,9 +460,11 @@ def main(args=None):
     rclpy.init(args=args)
 
     node = DepthToScan()
+    executor = MultiThreadedExecutor(num_threads=3)
+    executor.add_node(node)
 
     try:
-        rclpy.spin(node)
+        executor.spin()
     except KeyboardInterrupt:
         pass
     finally:

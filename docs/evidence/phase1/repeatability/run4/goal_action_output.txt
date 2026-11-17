@@ -1,0 +1,37 @@
+=======================================
+Sending Test Navigation Goal
+=======================================
+
+Waiting for Nav2 BT Navigator...
+Nav2 is ready!
+
+Sending goal: x=2.0, y=0.0
+Waiting for an action server to become available...
+Sending goal:
+     pose:
+  header:
+    stamp:
+      sec: 0
+      nanosec: 0
+    frame_id: map
+  pose:
+    position:
+      x: 2.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+behavior_tree: ''
+
+Goal accepted with ID: b9aaae6c016748568855a57bbb29865a
+
+Result:
+    error_code: 0
+error_msg: ''
+
+Goal finished with status: SUCCEEDED
+
+Goal sent! Watch the robot move in Gazebo.
