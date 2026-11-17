@@ -7,6 +7,7 @@ cannot resolve the robot pose in the map frame and activation fails — the
 historical bringup failure of this project.
 """
 
+import os
 from pathlib import Path
 
 from ament_index_python.packages import get_package_share_directory
@@ -23,12 +24,35 @@ def generate_launch_description():
         / "nav2_params.yaml"
     )
 
+    controller_params = [params_file]
+    if os.environ.get("FYP_DEPTH_SOURCE", "phone") == "gazebo":
+        # Simulation-only goal checker. nav2_params.yaml defines no goal
+        # checker, so Nav2's default SimpleGoalChecker (xy 0.25 m) decides
+        # SUCCEEDED; FollowPath.xy_goal_tolerance only feeds DWB's critics.
+        # The robot stops as soon as the AMCL estimate is inside this radius,
+        # so the true final error is up to (tolerance + localization error).
+        # Measured AMCL error near the goal is ~5 cm (likelihood field scores
+        # occupied-cell centres, 2.5 cm behind surfaces, plus ~1 cm
+        # nearest-in-bin scan bias); 0.10 m left the true position 0.17 m
+        # from the goal in two runs. 0.05 m keeps tolerance + error inside the
+        # unchanged 0.15 m ground-truth acceptance.
+        controller_params.append(
+            {
+                "goal_checker_plugins": ["general_goal_checker"],
+                "general_goal_checker.plugin": "nav2_controller::SimpleGoalChecker",
+                "general_goal_checker.xy_goal_tolerance": 0.05,
+                "general_goal_checker.yaw_goal_tolerance": 0.25,
+                "general_goal_checker.stateful": True,
+                "FollowPath.xy_goal_tolerance": 0.05,
+            }
+        )
+
     controller_server = Node(
         package="nav2_controller",
         executable="controller_server",
         name="controller_server",
         output="screen",
-        parameters=[params_file],
+        parameters=controller_params,
         remappings=[("cmd_vel", "/cmd_vel")],
     )
 

@@ -75,6 +75,11 @@ if os.path.exists(_nt):
     for line in open(_nt):
         if line.startswith("FYP_MAP="):
             MAPY = line.split("=", 1)[1].strip()
+            # The file may hold ${FYP_ROOT}/... (portable form); resolve it
+            # the same way the shell does, defaulting to this clone's root.
+            os.environ.setdefault(
+                "FYP_ROOT", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            MAPY = os.path.expandvars(MAPY)
             if MAPY and not os.path.isabs(MAPY):
                 MAPY = os.path.join(DS, MAPY)
             break

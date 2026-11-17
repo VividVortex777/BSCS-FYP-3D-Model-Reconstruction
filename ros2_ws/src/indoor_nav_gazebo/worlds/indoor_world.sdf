@@ -14,6 +14,15 @@
       filename="gz-sim-scene-broadcaster-system"
       name="gz::sim::systems::SceneBroadcaster"/>
 
+    <!-- Renders camera sensors (the robot's rgbd camera). Without this system
+         the sensor exists in the model but never publishes any image. Same
+         setting as realroom_world.sdf. -->
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
     <gravity>0 0 -9.81</gravity>
 
     <light type="directional" name="sun">
