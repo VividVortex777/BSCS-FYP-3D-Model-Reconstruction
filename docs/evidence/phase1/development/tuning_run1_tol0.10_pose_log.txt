@@ -1,0 +1,115 @@
+t=  301.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  302.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  303.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  304.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  305.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  306.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  307.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  308.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  309.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  310.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  311.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  312.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  313.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  314.3 true=( 0.014,-2.000) pitch= 4.35 amcl=(  none ) amcl_err=  nan sig=(nan,nan,nandeg) amcl_updates=0 cmd_msgs=0 vmax=0.00
+t=  315.3 true=( 0.492,-1.839) pitch= 4.63 amcl=( 0.307,-1.942) amcl_err=0.212 sig=(0.035,0.009,1.5deg) amcl_updates=3 cmd_msgs=7 vmax=0.85
+t=  316.3 true=( 1.014,-1.287) pitch= 4.35 amcl=( 0.962,-1.370) amcl_err=0.099 sig=(0.038,0.025,1.5deg) amcl_updates=7 cmd_msgs=17 vmax=0.85
+t=  317.3 true=( 1.446,-0.688) pitch= 4.35 amcl=( 1.375,-0.793) amcl_err=0.127 sig=(0.043,0.045,2.5deg) amcl_updates=9 cmd_msgs=27 vmax=0.85
+t=  318.3 true=( 1.710,-0.346) pitch= 4.35 amcl=( 1.720,-0.334) amcl_err=0.016 sig=(0.038,0.044,1.6deg) amcl_updates=12 cmd_msgs=37 vmax=0.85
+t=  319.3 true=( 1.831,-0.199) pitch= 4.35 amcl=( 1.837,-0.187) amcl_err=0.014 sig=(0.034,0.044,1.7deg) amcl_updates=13 cmd_msgs=47 vmax=0.85
+t=  320.3 true=( 1.887,-0.134) pitch= 4.35 amcl=( 1.837,-0.187) amcl_err=0.073 sig=(0.034,0.044,1.7deg) amcl_updates=13 cmd_msgs=57 vmax=0.85
+t=  321.3 true=( 1.896,-0.122) pitch= 4.94 amcl=( 1.942,-0.063) amcl_err=0.075 sig=(0.038,0.045,1.6deg) amcl_updates=15 cmd_msgs=67 vmax=0.85
+t=  322.3 true=( 1.884,-0.133) pitch= 5.46 amcl=( 1.939,-0.072) amcl_err=0.082 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  323.3 true=( 1.885,-0.134) pitch= 5.33 amcl=( 1.939,-0.072) amcl_err=0.082 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  324.3 true=( 1.885,-0.134) pitch= 5.05 amcl=( 1.939,-0.072) amcl_err=0.082 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  325.3 true=( 1.886,-0.135) pitch= 4.78 amcl=( 1.939,-0.072) amcl_err=0.082 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  326.3 true=( 1.886,-0.135) pitch= 4.59 amcl=( 1.939,-0.072) amcl_err=0.083 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  327.3 true=( 1.886,-0.135) pitch= 4.59 amcl=( 1.939,-0.072) amcl_err=0.082 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  328.3 true=( 1.886,-0.135) pitch= 4.59 amcl=( 1.939,-0.072) amcl_err=0.082 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  329.3 true=( 1.886,-0.135) pitch= 4.59 amcl=( 1.939,-0.072) amcl_err=0.082 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  330.3 true=( 1.886,-0.135) pitch= 4.58 amcl=( 1.939,-0.072) amcl_err=0.082 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  331.3 true=( 1.886,-0.135) pitch= 4.58 amcl=( 1.939,-0.072) amcl_err=0.082 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  332.3 true=( 1.887,-0.135) pitch= 4.58 amcl=( 1.939,-0.072) amcl_err=0.082 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  333.3 true=( 1.887,-0.135) pitch= 4.58 amcl=( 1.939,-0.072) amcl_err=0.082 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  334.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  335.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  336.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  337.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  338.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  339.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  340.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  341.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  342.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  343.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  344.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  345.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  346.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  347.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  348.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  349.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  350.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  351.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  352.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  353.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  354.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  355.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  356.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  357.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  358.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  359.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  360.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  361.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  362.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  363.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  364.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  365.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  366.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  367.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  368.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  369.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  370.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  371.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  372.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  373.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  374.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  375.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  376.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  377.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  378.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  379.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  380.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  381.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  382.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  383.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  384.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  385.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  386.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  387.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  388.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  389.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  390.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  391.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  392.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  393.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  394.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  395.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  396.3 true=( 1.887,-0.135) pitch= 4.57 amcl=( 1.939,-0.072) amcl_err=0.081 sig=(0.033,0.040,1.3deg) amcl_updates=17 cmd_msgs=77 vmax=0.85
+t=  397.3 true=(-0.000,-2.000) pitch=-0.00 amcl=( 0.153,-1.797) amcl_err=0.255 sig=(0.543,0.568,24.7deg) amcl_updates=18 cmd_msgs=77 vmax=0.85
+t=  398.3 true=(-0.000,-2.000) pitch=-0.00 amcl=( 0.153,-1.797) amcl_err=0.255 sig=(0.543,0.568,24.7deg) amcl_updates=18 cmd_msgs=77 vmax=0.85
+t=  399.3 true=(-0.000,-2.000) pitch=-0.00 amcl=( 0.153,-1.797) amcl_err=0.255 sig=(0.543,0.568,24.7deg) amcl_updates=18 cmd_msgs=77 vmax=0.85
+t=  400.3 true=(-0.000,-2.000) pitch=-0.00 amcl=( 0.153,-1.797) amcl_err=0.255 sig=(0.543,0.568,24.7deg) amcl_updates=18 cmd_msgs=77 vmax=0.85
+t=  401.3 true=(-0.000,-2.000) pitch=-0.00 amcl=( 0.153,-1.797) amcl_err=0.255 sig=(0.543,0.568,24.7deg) amcl_updates=18 cmd_msgs=77 vmax=0.85
+t=  402.3 true=(-0.000,-2.000) pitch=-0.00 amcl=( 0.153,-1.797) amcl_err=0.255 sig=(0.543,0.568,24.7deg) amcl_updates=18 cmd_msgs=77 vmax=0.85
+t=  403.3 true=(-0.000,-2.000) pitch=-0.00 amcl=( 0.153,-1.797) amcl_err=0.255 sig=(0.543,0.568,24.7deg) amcl_updates=18 cmd_msgs=77 vmax=0.85
+t=  404.3 true=(-0.000,-2.000) pitch=-0.00 amcl=( 0.153,-1.797) amcl_err=0.255 sig=(0.543,0.568,24.7deg) amcl_updates=18 cmd_msgs=77 vmax=0.85
+t=  405.3 true=(-0.000,-2.000) pitch=-0.00 amcl=( 0.153,-1.797) amcl_err=0.255 sig=(0.543,0.568,24.7deg) amcl_updates=18 cmd_msgs=77 vmax=0.85
+t=  406.3 true=(-0.000,-2.000) pitch=-0.00 amcl=(-0.002,-1.999) amcl_err=0.002 sig=(0.049,0.049,1.0deg) amcl_updates=19 cmd_msgs=77 vmax=0.85
+t=  407.3 true=(-0.000,-2.000) pitch=-0.00 amcl=(-0.002,-1.999) amcl_err=0.002 sig=(0.049,0.049,1.0deg) amcl_updates=19 cmd_msgs=77 vmax=0.85
+t=  408.3 true=(-0.000,-2.000) pitch= 0.00 amcl=(-0.002,-1.999) amcl_err=0.002 sig=(0.049,0.049,1.0deg) amcl_updates=19 cmd_msgs=77 vmax=0.85
+t=  409.3 true=( 0.000,-2.000) pitch= 0.02 amcl=(-0.002,-1.999) amcl_err=0.002 sig=(0.049,0.049,1.0deg) amcl_updates=19 cmd_msgs=77 vmax=0.85
+t=  410.3 true=( 0.000,-2.000) pitch= 0.07 amcl=(-0.002,-1.999) amcl_err=0.002 sig=(0.049,0.049,1.0deg) amcl_updates=19 cmd_msgs=77 vmax=0.85
+t=  411.3 true=( 0.000,-2.000) pitch= 0.12 amcl=(-0.002,-1.999) amcl_err=0.002 sig=(0.049,0.049,1.0deg) amcl_updates=19 cmd_msgs=77 vmax=0.85
+t=  412.3 true=( 0.000,-2.000) pitch= 0.17 amcl=(-0.002,-1.999) amcl_err=0.002 sig=(0.049,0.049,1.0deg) amcl_updates=19 cmd_msgs=77 vmax=0.85
+t=  413.3 true=( 0.001,-2.000) pitch= 0.21 amcl=(-0.002,-1.999) amcl_err=0.003 sig=(0.049,0.049,1.0deg) amcl_updates=19 cmd_msgs=77 vmax=0.85
+t=  414.3 true=( 0.001,-2.000) pitch= 0.26 amcl=(-0.002,-1.999) amcl_err=0.003 sig=(0.049,0.049,1.0deg) amcl_updates=19 cmd_msgs=77 vmax=0.85
+t=  415.3 true=( 0.001,-2.000) pitch= 0.31 amcl=(-0.002,-1.999) amcl_err=0.003 sig=(0.049,0.049,1.0deg) amcl_updates=19 cmd_msgs=77 vmax=0.85

@@ -1,0 +1,4 @@
+[moving] scans=363 beams=58080 frame_id=['sim_depth_scan'] pitch range=4.35..5.43 deg
+  angle_min=-0.5985 angle_max=0.6000 inc=0.00754 range_min=0.15000000596046448 range_max=8.0 n=160
+  matched beams=57784  |error| median=0.012 m  p95=0.028 m  max=3.792 m  within 0.10 m: 99.7%
+  shorter than world by >0.30 m (floor/phantom): 36  missing (world wall, scan inf): 265  extra (scan hit, world empty): 13

@@ -1,0 +1,8 @@
+[bt_navigator-4] [INFO] [1794891079.393961622] [bt_navigator]: Begin navigating from current location (0.00, -2.00) to (2.00, 0.00)
+[planner_server-2] [INFO] [1794891079.396427911] [planner_server]: Computing path to goal.
+[controller_server-1] [WARN] [1794891079.416230963] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+[controller_server-1] [WARN] [1794891079.416319897] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+[controller_server-1] [WARN] [1794891079.416327436] [controller_server]: No path handler was specified in parameter 'current_path_handler'. Server will use only plugin loaded PathHandler . This warning will appear once.
+[controller_server-1] [INFO] [1794891079.416823765] [controller_server]: Received a goal, begin computing control effort.
+[controller_server-1] [INFO] [1794891087.859745066] [controller_server]: Reached the goal!
+[bt_navigator-4] [INFO] [1794891087.875962674] [bt_navigator]: Goal succeeded

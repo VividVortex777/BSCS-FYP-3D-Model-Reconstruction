@@ -1,0 +1,31 @@
+=======================================
+ FYP smartphone-depth navigation stack
+=======================================
+[0;32m[FYP][0m Depth source for /scan: gazebo
+[1;33m[FYP][0m Killing stale FYP ROS/Gazebo processes (project-scoped only)
+[0;32m[FYP][0m Phase 0: FastAPI backend + MiDaS
+[0;32m[FYP][0m Starting backend (log: /tmp/fyp_backend.log)
+[0;32m[FYP][0m backend /health ready (6s)
+[0;32m[FYP][0m Phase 0b: test phone simulator (real MiDaS frames via WebSocket)
+[0;32m[FYP][0m          (SIM_PHONE=0 skips this when your Android streams instead)
+[0;32m[FYP][0m Phase 1: Gazebo world + robot + ROS bridge (log: /tmp/fyp_sim.launch.log)
+[0;32m[FYP][0m /clock flowing ready (13s)
+[1;33m[FYP][0m /odom flowing NOT ready after 60s
+[1;33m[FYP][0m /odom not flowing yet (robot spawn failed? see /tmp/fyp_sim.launch.log)
+[0;32m[FYP][0m Phase 2: depth bridge + depth->scan + map server + AMCL (log: /tmp/fyp_loc.launch.log)
+[0;32m[FYP][0m /scan flowing (MiDaS depth -> LaserScan) ready (2s)
+[1;33m[FYP][0m AMCL map->odom transform NOT ready after 60s
+[1;33m[FYP][0m map->odom missing — AMCL did not localize
+[0;32m[FYP][0m Phase 3: Nav2 navigation stack (log: /tmp/fyp_nav.launch.log)
+[0;32m[FYP][0m lifecycle: map_server active ready (2s)
+[0;32m[FYP][0m lifecycle: amcl active ready (3s)
+[0;32m[FYP][0m lifecycle: controller_server active ready (3s)
+[0;32m[FYP][0m lifecycle: planner_server active ready (2s)
+[0;32m[FYP][0m lifecycle: behavior_server active ready (2s)
+[0;32m[FYP][0m lifecycle: bt_navigator active ready (2s)
+
+[0;32m[FYP][0m SYSTEM UP — all lifecycle nodes active.
+[0;32m[FYP][0m   Send a goal:        ./send_test_goal.sh
+[0;32m[FYP][0m   RViz:               ./run_rviz.sh
+[0;32m[FYP][0m   Logs: /tmp/fyp_backend.log /tmp/fyp_phone_sim.log /tmp/fyp_sim.launch.log
+[0;32m[FYP][0m         /tmp/fyp_loc.launch.log /tmp/fyp_nav.launch.log
